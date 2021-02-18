@@ -5,29 +5,56 @@ class Counter extends Component {
     super(props);
     this.state = {
       counter: 0,
+      isAdd: true,
+      value: "",
     };
   }
-  increment = () => {
-    this.setState({ counter: this.state.counter + this.props.step });
+
+  handleClick = () => {
+    this.setState((state) => {
+      if (state.isAdd) {
+        const newCount = state.counter + Number(state.value);
+        return {
+          counter: newCount,
+        };
+      } else if (this.state.counter > 0) {
+        const newCount = state.counter - state.value;
+        return {
+          counter: newCount,
+        };
+      }
+    });
   };
 
-  decrement = () => {
-    if (this.state.counter > 0) {
-      this.setState({ counter: this.state.counter - this.props.step });
-    }
+  changeMode = () => {
+    this.setState({
+      isAdd: !this.state.isAdd,
+    });
   };
 
+  handleChange = (event) => {
+    this.setState({ value: event.target.value });
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+  }
   render() {
+    const { counter, isAdd, value } = this.state;
+
     return (
-      <div>
-        <h1>{this.state.counter}</h1>
-
-        <button onClick={this.increment}>+</button>
-        <button onClick={this.decrement}>-</button>
-
-        <div>{this.props.step}</div>
-        <button>Switch</button>
-      </div>
+      <form onSubmit={this.handleSubmit}> 
+        <h1>Текущий счёт: {counter}</h1>
+        <h1>Шаг: {value}</h1>
+        <button onClick={this.handleClick}>
+          {isAdd ? "ДОБАВИТЬ" : "ОТНЯТЬ"}
+        </button>
+        <button onClick={this.changeMode}>ИЗМЕНИТЬ РЕЖИМ</button>
+        <input
+          type="text"
+          value={this.state.value}
+          onChange={this.handleChange}
+        />
+      </form>
     );
   }
 }
