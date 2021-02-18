@@ -1,11 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
-import Counter from './Counter/Counter.jsx';
+import Controller from './Counter/Controller';
 
 function App() {
   return (
     <>
-    <Counter/>
+    <Controller/>
     </>
   );
 }
